@@ -1,7 +1,7 @@
 {
     "name": "hw-mongo-news",
     "version": "1.0.0",
-    "description": "News web app using Mongo and Cheerio.",
+    "description": "News web app using Mongo and web scraping with Cheerio.",
     "author": "Ronny Tomasetti",
     "main": "app.js",
     "license": "MIT",

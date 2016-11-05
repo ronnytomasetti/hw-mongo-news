@@ -1,3 +1,25 @@
 <div class="container">
-
+	<div class="row text-center">
+		<br/>
+		<form class="form-inline">
+			<hr/>
+			<p>To get started, please provide your name and profile image url below:</p>
+			<div class="form-group">
+				<label for="user-name" class="sr-only">Name</label>
+				<input id="user-name" type="text" placeholder="Name" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="img-url" class="sr-only">Profile Image URL</label>
+				<input id="img-url" type="url" placeholder="Image URL" class="form-control" />
+			</div>
+			<div class="form-group">
+				<button type="button" id="btn-take-survey" class="btn btn-danger btn-md"> TAKE SURVEY <span class="glyphicon glyphicon-chevron-right"></span></button>
+			</div>
+			<hr/>
+		</form>
+	</div>
+	<div class='row'>
+		<div id="articles"></div>
+	    <div id="notes"></div>
+	</div>
 </div>
