@@ -48,14 +48,15 @@ router.get('/articles', function(req, res) {
 
 	Article.find({})
 		   .exec(function(err, doc) {
-			   if (err)
-	   			console.log(err);
-				res.status(500).json({
-					success: false,
-					message: "Internal server error. Please try your request again."
-				})
-	   		else
-	   			res.status(200)json(doc);
+			   if (err) {
+				   console.log(err);
+				   res.status(500).json({
+					   success: false,
+					   message: "Internal server error. Please try your request again."
+				   });
+			   }
+			   else
+			       res.status(200).json(doc);
 		   });
 
 });
@@ -83,12 +84,31 @@ router.post('/articles/:id', function(req, res) {
 		if(err)
 			console.log(err);
 		else
-			Article.findOneAndUpdate({ '_id': req.params.id }, {'notes':doc._id})
-			.exec(function(err, doc){
-				if (err)
-					console.log(err);
-				else
-					res.send(doc);
+			Article.findOneAndUpdate({ _id: req.params.id},
+				{ $push: { notes:doc._id } },
+				{ new: true })
+				.exec(function(err, doc){
+					if (err)
+						console.log(err);
+					else
+						res.send(doc);
+			});
+	});
+});
+
+router.delete('/notes/:id', function(req, res) {
+	var noteId = req.params.id;
+
+	Note.remove({ '_id': noteId }, function(err) {
+		if (err)
+			res.status(500).json({
+				success: false,
+				message: "Error processing request."
+			});
+		else
+			res.status(200).json({
+				success: true,
+				message: "Note removed."
 			});
 	});
 });

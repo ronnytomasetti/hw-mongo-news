@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
 	function retrieveNotesAndAppend() {
+		$('#saved-notes').empty();
+
 		setTimeout(function() {
 			var thisId = $('div.item.fetched-article.active').attr('data-id');
 
@@ -10,19 +12,29 @@ $(document).ready(function() {
 				})
 				.done(function(data) {
 
-					console.log("NOTE DATA: ", data);
+					$.each(data.notes, function(index, value) {
+						var $noteTitle = $('<p>').addClass('article-note-titles')
+												 .text(value.title);
 
-					$('#notes').append('<h2>' + data.title + '</h2>');
-					$('#notes').append('<input id="titleinput" name="title" >');
-					$('#notes').append('<textarea id="bodyinput" name="body"></textarea>');
-					$('#notes').append('<button data-id="' + data._id + '" id="savenote">Save Note</button>');
+						var $noteBody = $('<p>').addClass('article-note-body')
+												.text(value.body);
 
-					if (data.note) {
-						$('#titleinput').val(data.note.title);
-						$('#bodyinput').val(data.note.body);
-					}
+						var $noteDiv = $('<div>').addClass('article-note-div')
+												 .attr('data-note-id', value._id);
 
+						var $noteRemoveBtn = $('<span>').addClass('glyphicon glyphicon-remove note-remove-btn')
+														.attr('id', '')
+														.attr('aria-hidden', 'true');
+
+						$noteDiv.append('<hr>',
+										$noteRemoveBtn,
+										$noteTitle,
+										$noteBody,
+										'<hr>')
+								.appendTo('#saved-notes');
+					});
 				});
+
 		}, 1000);
 	}
 
@@ -71,7 +83,6 @@ $(document).ready(function() {
 	});
 
 	$('.carousel-control').click(function() {
-		$('#saved-notes').empty();
 		retrieveNotesAndAppend();
 	});
 
@@ -79,8 +90,6 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		var thisId = $('div.item.fetched-article.active').attr('data-id');
-
-		console.log('ID: ', thisId);
 
 		$.ajax({
 				method: "POST",
@@ -93,7 +102,6 @@ $(document).ready(function() {
 			})
 			.done(function(data) {
 				console.log(data);
-				$('#saved-notes').empty();
 				retrieveNotesAndAppend();
 			});
 
@@ -101,6 +109,20 @@ $(document).ready(function() {
 		$('#note-body').val("");
 
 		return false;
+	});
+
+	$(document).on('click', '.note-remove-btn', function() {
+		var noteId = $(this).parent().data('article-id');
+
+		$.ajax({
+				method: "DELETE",
+				url: "/notes/" + noteId
+			})
+			.done(function(data) {
+				console.log(data);
+				retrieveNotesAndAppend();
+			});
+
 	});
 
 });
