@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
 
-* { font-family: 'Ubuntu', sans-serif; }
+* {
+    font-family: 'Ubuntu', sans-serif;
+}
 
 html {
     position: relative;
@@ -24,19 +26,47 @@ footer {
     font-size: 12px;
 }
 
- /* -- Bootstrap overwritten styles -- */
-.navbar .navbar-toggle { color: #CA4047; }
-.navbar .navbar-brand { color: #CA4047; }
-.navbar .navbar-nav>li>a { color: #6B6B6B; }
+#main-container {
+    padding-top: 10px;
+    margin-bottom: 20px;
+}
+
+.article-notes {
+	margin-top: 100px;
+}
+
+#saved-notes {
+	height: 300px;
+	overflow: scroll;
+}
+
+textarea {
+    resize: none;
+}
+
+/*--------------------------------------------------------------------*/
+/* -- Bootstrap overwritten styles -- */
+/*--------------------------------------------------------------------*/
+.navbar .navbar-toggle {
+    color: #CA4047;
+}
+
+.navbar .navbar-brand {
+    color: #CA4047;
+}
+
+.navbar .navbar-nav>li>a {
+    color: #6B6B6B;
+}
 
 .navbar .navbar-nav>li>a:hover {
-	background-color: #FFF;
-	color: #CA4047;
+    background-color: #FFF;
+    color: #CA4047;
 }
 
 .navbar {
-	border-radius: 0px;
-	margin-bottom: 1px;
+    border-radius: 0px;
+    margin-bottom: 1px;
 }
 
 .navbar-fixed-top {
@@ -51,7 +81,78 @@ footer {
     text-decoration: none;
 }
 
-/* -- Helper styles -- */
-.hidden {
-	display: none;
+/*--------------------------------------------------------------------*/
+/* -- Carousel styles -- */
+/*--------------------------------------------------------------------*/
+#articles-carousel {
+    padding: 0 10px 30px 10px;
+    margin-top: 30px;
+}
+
+#articles-carousel .carousel-control {
+    background: none;
+    color: #222;
+    font-size: 2.3em;
+    text-shadow: none;
+    margin-top: 30px;
+}
+
+#articles-carousel .carousel-control.left {
+    left: -90px;
+}
+
+#articles-carousel .carousel-control.right {
+    right: -90px !important;
+}
+
+#articles-carousel .carousel-indicators {
+    right: 50%;
+    top: 200px;
+    bottom: 0px;
+    margin-right: -19px;
+}
+
+#articles-carousel .carousel-indicators li {
+    background: #c0c0c0;
+}
+
+#articles-carousel .carousel-indicators .active {
+    background: #333333;
+}
+
+#articles-carousel img {
+    width: 250px;
+    height: 100px
+}
+
+.item {
+    border-left: none;
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    #articles-carousel {
+        margin-bottom: 0;
+        padding: 0 40px 30px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    #articles-carousel .carousel-indicators li {
+        display: inline-block;
+        margin: 0px 5px;
+        width: 15px;
+        height: 15px;
+    }
+
+    #articles-carousel .carousel-indicators li.active {
+        margin: 0px 5px;
+        width: 20px;
+        height: 20px;
+    }
+
+	footer {
+		font-size: 8.5px;
+	}
 }

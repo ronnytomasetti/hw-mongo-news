@@ -7,9 +7,6 @@ var cheerio = require('cheerio');
 var Article = require('../models/Article');
 var Note = require('../models/Note');
 
-/**
- * GET '/' route renders Mongo News homepage
- */
 router.get('/', function(req, res, next) {
 	res.render('index');
 });
@@ -20,12 +17,13 @@ router.get('/scrape', function(req, res) {
 
 		var $ = cheerio.load(html);
 
-		$('article h2').each(function(i, element) {
+		$('article .blog-post').each(function(i, element) {
 
 			var result = {};
 
-			result.title = $(this).children('a').text();
-			result.link = "https://nodesource.com" + $(this).children('a').attr('href');
+			result.title = $(this).children('h2').children('a').text();
+			result.link = "https://nodesource.com" + $(this).children('h2').children('a').attr('href');
+			result.preview = $(this).children('div').text();
 
 			var entry = new Article(result);
 
@@ -47,11 +45,51 @@ router.get('/scrape', function(req, res) {
 });
 
 router.get('/articles', function(req, res) {
-	Article.find({}, function(err, doc) {
+
+	Article.find({})
+		   .exec(function(err, doc) {
+			   if (err)
+	   			console.log(err);
+				res.status(500).json({
+					success: false,
+					message: "Internal server error. Please try your request again."
+				})
+	   		else
+	   			res.status(200)json(doc);
+		   });
+
+});
+
+router.get('/articles/:id', function(req, res) {
+
+	Article.findOne({ '_id': req.params.id })
+	.populate('notes')
+	.exec(function(err, doc) {
+
 		if (err)
 			console.log(err);
 		else
 			res.json(doc);
+	});
+
+});
+
+router.post('/articles/:id', function(req, res) {
+
+	var newNote = new Note(req.body);
+
+	newNote.save(function(err, doc) {
+
+		if(err)
+			console.log(err);
+		else
+			Article.findOneAndUpdate({ '_id': req.params.id }, {'notes':doc._id})
+			.exec(function(err, doc){
+				if (err)
+					console.log(err);
+				else
+					res.send(doc);
+			});
 	});
 });
 

@@ -1,25 +1,63 @@
-<div class="container">
+<div id="main-container" class="container">
+
 	<div class="row text-center">
-		<br/>
-		<form class="form-inline">
-			<hr/>
-			<p>To get started, please provide your name and profile image url below:</p>
-			<div class="form-group">
-				<label for="user-name" class="sr-only">Name</label>
-				<input id="user-name" type="text" placeholder="Name" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label for="img-url" class="sr-only">Profile Image URL</label>
-				<input id="img-url" type="url" placeholder="Image URL" class="form-control" />
-			</div>
-			<div class="form-group">
-				<button type="button" id="btn-take-survey" class="btn btn-danger btn-md"> TAKE SURVEY <span class="glyphicon glyphicon-chevron-right"></span></button>
-			</div>
-			<hr/>
-		</form>
+		<h2>News articles from blog at NodeSource.com</h1>
+		<p>Scroll through articles in the left panel, click article title to view saved notes on the right, or add new note. Happy reading!</p>
 	</div>
-	<div class='row'>
-		<div id="articles"></div>
-	    <div id="notes"></div>
-	</div>
-</div>
+
+	<hr>
+
+	<div class="row">
+		<div class='col-md-offset-2 col-md-8'>
+
+			<div class="carousel slide" data-ride="carousel" data-interval="false" id="articles-carousel">
+
+				<!-- Carousel indicators are dumped here -->
+				<ol class="carousel-indicators"></ol>
+
+				<!-- Carousel article divs are dumped here -->
+				<div class="carousel-inner"></div>
+
+				<a data-slide="prev" href="#articles-carousel" class="left carousel-control"><i class="fa fa-chevron-left"></i></a>
+				<a data-slide="next" href="#articles-carousel" class="right carousel-control"><i class="fa fa-chevron-right"></i></a>
+
+			</div>
+
+		</div> <!-- ends .col-md-offset-2 col-md-8 -->
+	</div> <!-- ends .row -->
+
+	<div class="article-notes row">
+
+		<div class="col-md-offset-2 col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">NEW NOTE FORM</h3>
+				</div>
+				<div class="panel-body">
+					<form>
+						<div class="form-group">
+							<label for="note-title">Title</label>
+							<input type="text" class="form-control" id="note-title" placeholder="Note Title">
+						</div>
+						<div class="form-group">
+							<label for="note-body">Note</label>
+							<textarea class="form-control" rows="5" id="note-body" placeholder="Notey note stuff..."></textarea>
+						</div>
+						<button id="save-note-btn" type="submit" class="btn btn-danger btn-block">Save Note</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">SAVED NOTES</h3>
+				</div>
+				<div id="saved-notes" class="panel-body"></div>
+			</div>
+		</div>
+
+	</div> <!-- ends .row -->
+
+</div> <!-- ends #main-container -->

@@ -10,12 +10,28 @@ var cookieParser = require('cookie-parser');
 var methodOverride = require('method-override');
 var mongoose = require('mongoose');
 
-var routes = require('./routes/index');
-
 // =================================================================
 // Initialize new Express app
 // =================================================================
 var app = express();
+
+// =================================================================
+// Configure MongoDB connection
+// =================================================================
+var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/mongo_news';
+
+mongoose.connect(MONGODB_URI);
+var db = mongoose.connection;
+
+// Log Mongo errors to console.
+db.on('error', function(err) {
+  console.log('Mongoose Error: ', err);
+});
+
+// Once logged in to db through mongoose, log success message.
+db.once('open', function() {
+  console.log('Mongoose connection successful.');
+});
 
 // =================================================================
 // View engine setup
@@ -54,25 +70,8 @@ app.use(methodOverride('_method'));
 // =================================================================
 // Configure application routes
 // =================================================================
+var routes = require('./routes/index');
 app.use('/', routes);
-
-// =================================================================
-// Configure MongoDB connection
-// =================================================================
-var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/mongo_news';
-
-mongoose.connect(MONGODB_URI);
-var db = mongoose.connection;
-
-// Log Mongo errors to console.
-db.on('error', function(err) {
-  console.log('Mongoose Error: ', err);
-});
-
-// Once logged in to db through mongoose, log success message.
-db.once('open', function() {
-  console.log('Mongoose connection successful.');
-});
 
 // =================================================================
 // Catch 404 errors, forward to error handlers below.
